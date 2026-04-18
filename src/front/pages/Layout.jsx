@@ -1,15 +1,20 @@
-import { Outlet } from "react-router-dom/dist"
-import ScrollToTop from "../components/ScrollToTop"
-import { Navbar } from "../components/Navbar"
-import { Footer } from "../components/Footer"
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./Home.jsx";
+import Login from "./Login.jsx";
+import Signup from "./Signup.jsx";
+import Private from "./Private.jsx";
+import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 
-// Base component that maintains the navbar and footer throughout the page and the scroll to top functionality.
-export const Layout = () => {
-    return (
-        <ScrollToTop>
-            <Navbar />
-                <Outlet />
-            <Footer />
-        </ScrollToTop>
-    )
+export default function Layout() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/private" element={<Private />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
