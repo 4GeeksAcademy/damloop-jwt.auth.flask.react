@@ -1,8 +1,6 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
-
-const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -15,44 +13,64 @@ const Login = () => {
     e.preventDefault();
     setMsg(null);
 
-    try {
-      const resp = await fetch(`${API_URL}/api/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      });
+    const data = await login(email, password);
+    window.lastLoginResponse = data; // <-- añade esto temporalmente
 
-      const data = await resp.json();
-      if (resp.ok) {
-        login(data.token);
-        navigate("/private");
-      } else {
-        setMsg(data.msg || "Error en el login");
-      }
-    } catch (err) {
-      setMsg("Error de conexión");
+    if (data.msg === "ok") {
+      navigate("/private");
+    } else {
+      setMsg(data.msg || "Error al iniciar sesión");
     }
   };
 
   return (
-    <div className="text-center mt-5">
-      <h2>Login</h2>
-      {msg && <p>{msg}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        /><br />
-        <input
-          type="password"
-          placeholder="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        /><br />
-        <button type="submit">Entrar</button>
-      </form>
+    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
+      <div className="card shadow-lg p-4" style={{ width: "380px", borderRadius: "16px" }}>
+        
+        <h2 className="text-center mb-4 fw-bold">Iniciar sesión</h2>
+
+        {msg && (
+          <div className="alert alert-danger text-center py-2">
+            {msg}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
+
+          <div>
+            <label className="form-label fw-semibold">Email</label>
+            <input
+              type="email"
+              className="form-control form-control-lg"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label className="form-label fw-semibold">Contraseña</label>
+            <input
+              type="password"
+              className="form-control form-control-lg"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button className="btn btn-success btn-lg mt-2" type="submit">
+            Entrar
+          </button>
+
+        </form>
+
+        <div className="text-center mt-3">
+          <span className="text-muted">¿No tienes cuenta?</span>
+          <Link to="/signup" className="ms-1 fw-semibold">
+            Regístrate
+          </Link>
+        </div>
+
+      </div>
     </div>
   );
 };

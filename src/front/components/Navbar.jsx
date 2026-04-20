@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
 
 export const Navbar = () => {
-  const { token, logout } = useContext(AuthContext);
+  const { isAuthenticated, logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -12,20 +12,45 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-light bg-light mb-3">
-      <div className="container">
-        <Link to="/" className="navbar-brand">JWT App</Link>
-        <div>
-          <Link to="/signup" className="btn btn-outline-primary me-2">Signup</Link>
-          <Link to="/login" className="btn btn-outline-success me-2">Login</Link>
-          <Link to="/private" className="btn btn-outline-secondary me-2">Private</Link>
-          {token && (
-            <button className="btn btn-danger" onClick={handleLogout}>
-              Logout
-            </button>
+    <nav className="navbar navbar-light bg-light border-bottom shadow-sm">
+      <div className="container d-flex justify-content-between align-items-center">
+
+        <Link to="/" className="navbar-brand fw-bold fs-4">JWT App</Link>
+
+        <div className="d-flex align-items-center gap-2">
+
+          {!isAuthenticated && (
+            <>
+              <NavLink to="/signup" className="btn btn-outline-primary">
+                Signup
+              </NavLink>
+
+              <NavLink to="/login" className="btn btn-outline-success">
+                Login
+              </NavLink>
+            </>
           )}
+
+          {isAuthenticated && (
+            <>
+              <NavLink to="/private" className="btn btn-outline-secondary">
+                Private
+              </NavLink>
+
+              <span className="fw-semibold me-2">
+                {user?.email}
+              </span>
+
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          )}
+
         </div>
       </div>
     </nav>
   );
 };
+
+export default Navbar;

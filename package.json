@@ -12,7 +12,7 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "backend": "pipenv run python -m src.app",
+    "backend": "pipenv run python src/app.py",
     "frontend": "vite --config vite.config.js",
     "dev:all": "concurrently \"npm run backend\" \"npm run frontend\""
   },

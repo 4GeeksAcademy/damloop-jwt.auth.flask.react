@@ -1,20 +1,15 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./Home.jsx";
-import Login from "./Login.jsx";
-import Signup from "./Signup.jsx";
-import Private from "./Private.jsx";
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
+import Navbar from "../components/Navbar.jsx";
+import Footer from "../components/Footer.jsx";
 
-export default function Layout() {
+const Layout = ({ children }) => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/private" element={<Private />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <Navbar />
+      <div className="container mt-4">{children}</div>
+      <Footer />
+    </>
   );
-}
+};
+
+export default Layout;
