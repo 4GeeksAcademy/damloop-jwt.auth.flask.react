@@ -14,9 +14,8 @@ const Login = () => {
     setMsg(null);
 
     const data = await login(email, password);
-    window.lastLoginResponse = data; // <-- añade esto temporalmente
 
-    if (data.msg === "ok") {
+    if (data.token) {
       navigate("/private");
     } else {
       setMsg(data.msg || "Error al iniciar sesión");

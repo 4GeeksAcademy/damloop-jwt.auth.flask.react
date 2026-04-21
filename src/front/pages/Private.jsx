@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
-import BACKEND_URL from "../components/BackendURL.jsx";
 
 const Private = () => {
   const { token } = useContext(AuthContext);
@@ -9,7 +8,7 @@ const Private = () => {
   useEffect(() => {
     const fetchPrivate = async () => {
       try {
-        const resp = await fetch(`${BACKEND_URL}/api/private`, {
+        const resp = await fetch("/api/private", {
           headers: {
             Authorization: `Bearer ${token}`
           }

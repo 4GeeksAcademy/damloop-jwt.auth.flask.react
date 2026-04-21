@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
 
 export const Navbar = () => {
-  const { isAuthenticated, logout, user } = useContext(AuthContext);
+  const { token, logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -19,7 +19,7 @@ export const Navbar = () => {
 
         <div className="d-flex align-items-center gap-2">
 
-          {!isAuthenticated && (
+          {!token && (
             <>
               <NavLink to="/signup" className="btn btn-outline-primary">
                 Signup
@@ -31,7 +31,7 @@ export const Navbar = () => {
             </>
           )}
 
-          {isAuthenticated && (
+          {token && (
             <>
               <NavLink to="/private" className="btn btn-outline-secondary">
                 Private
